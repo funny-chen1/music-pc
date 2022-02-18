@@ -1,32 +1,39 @@
 <template>
-  <div>
-    <div class="header" data-aos="fade-down" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
-      <div class="logo">
-        <h3>LOGO</h3>
-      </div>
-      <div class="menu">
+  <div class="menu" :class="{active: isActive}" data-aos="fade-down" data-aos-easing="ease" data-aos-duration="800" data-aos-delay="100">
+    <div @click="showList = !showList">
+      <img src="../assets/menu.png"
+           alt=""
+           class="menu-icon">
+    </div>
+    <h3>首页</h3>
+    <div v-if="isLogin"
+         class="login-btn">
+      <img :src="this.$store.state.userInfo.profile.avatarUrl"
+           @click="toPage('/profile')">
+      <!-- <Button type="success"
+              @click="logout">退出</Button> -->
+    </div>
+    <div v-else
+         class="login-btn">
+      <Button type="success"
+              @click="modal = true"
+              style="margin-right: 20px;">注册</Button>
+      <Button type="success"
+              @click="loginModal = true">登录</Button>
+    </div>
+
+    <transition name="fade">
+      <div class="menu-list"
+           v-if="showList">
         <ul>
-          <li v-for="item,index in menuItem"
+          <li v-for="item, index in menuItem"
               :key="index"
-              :class="{'selectedMenu': currentItem.indexOf(item.index) != -1}"
-              @click="toPage(item.index)">{{ item.title }}</li>
+              @click="toPage(item.index)">
+            {{ item.title }}
+          </li>
         </ul>
       </div>
-      <div v-if="isLogin"
-           class="login-btn">
-        <img :src="this.$store.state.userInfo.profile.avatarUrl" @click="toPage('/profile')">
-        <span>{{ this.$store.state.userInfo.profile.nickname }}</span>
-        <Button type="success"
-                @click="logout">退出</Button>
-      </div>
-      <div v-else
-           class="login-btn">
-        <Button type="success"
-                @click="modal = true" style="margin-right: 20px;">注册</Button>
-        <Button type="success"
-                @click="loginModal = true">登录</Button>
-      </div>
-    </div>
+    </transition>
 
     <!-- 注册弹窗 -->
     <Modal v-model="modal"
@@ -97,6 +104,7 @@
       </div>
     </Modal>
     <!-- 登录弹窗结束 -->
+
   </div>
 </template>
 
@@ -105,15 +113,23 @@ import AOS from 'aos'
 export default {
   data() {
     return {
+      menuItem: [
+        { title: '发现音乐', index: '/index' },
+        { title: '我的音乐', index: '/my' },
+        { title: '歌单', index: '/songlist' },
+        { title: '歌手', index: '/singerlist' },
+        { title: '音乐人', index: '/musician' },
+        { title: '下载客户端', index: '/xia' }
+      ],
+      userInfo: {},
+      showList: false,
       modal: false,
       loginModal: false,
       modal_loading: false,
       showBtn: true,
       count: '',
       timer: '',
-      currentItem: '',
-      //   isLogin: false,
-      userInfo: {},
+      isActive: false,
       newUser: {
         nickname: '',
         password: '',
@@ -123,15 +139,7 @@ export default {
       loginInfo: {
         phone: '',
         password: ''
-      },
-      menuItem: [
-        { title: '发现音乐', index: '/index' },
-        { title: '我的音乐', index: '/my' },
-        { title: '歌单', index: '/songlist' },
-        { title: '歌手', index: '/singerlist' },
-        { title: '音乐人', index: '/musician' },
-        { title: '下载客户端', index: '/xia' }
-      ]
+      }
     }
   },
   computed: {
@@ -261,83 +269,59 @@ export default {
       } return true;
     },
     toPage(index) {
-      this.$router.push(index);
+    //   this.$router.push(index);
+    console.log(index);
     }
   },
-  created() {
-    this.currentItem = this.$route.path;
-    // console.log(JSON.parse(localStorage.getItem('userInfo')));
-    //  let token = localStorage.getItem('token');
-    //  this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    //  if (token) {
-    //      this.isLogin = true;
-    //  } else {
-    //      this.isLogin = false;
-    //  }
-  },
   mounted() {
-    AOS.init();
+      AOS.init();
+      document.addEventListener('click', (e) => {
+          if (e.target.className != 'menu-icon') {
+              this.showList = false;
+          }
+      })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.header {
+.menu {
   width: 100%;
-  min-width: 1080px;
-  height: 80px;
+  height: 60px;
+  line-height: 60px;
   background-color: #000;
   display: flex;
-  justify-content: space-around;
-  .logo {
-    text-align: center;
-    width: 200px;
-    height: 80px;
-    line-height: 80px;
-    border: 1px solid #fff;
+  justify-content: space-between;
+  padding: 0 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  .menu-list {
+    width: 100%;
+    background-color: #000;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    border-top: 1px solid #fff;
+    color: #fff;
+    z-index: 2;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+  }
+  h3 {
     color: #fff;
   }
-  .menu {
-    ul {
-      margin: 0 auto;
-      li {
-        display: inline-block;
-        font-size: 20px;
-        color: #fff;
-        height: 80px;
-        line-height: 80px;
-        padding: 0 20px;
-        cursor: pointer;
-      }
-      li:hover {
-        background-color: rgba(87, 87, 87, 0.842);
-      }
-    }
-  }
-  .login-btn {
-    height: 80px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    span {
-      color: #fff;
-      font-size: 16px;
-      padding-right: 10px;
-    }
-    img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 10px;
-      cursor: pointer;
-    }
+  .login-btn img {
+    border-radius: 50%;
   }
 }
-.mg {
-  margin: 10px 0;
-  width: 80%;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 1s;
 }
-.selectedMenu {
-  background-color: rgba(87, 87, 87, 0.842);
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(50px);
 }
 </style>

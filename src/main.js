@@ -10,6 +10,8 @@ import 'iview/dist/styles/iview.css'
 import * as api from './api/config'
 import store from './store/store'
 import $ from 'jquery'
+import AOS from "aos"
+import "../node_modules/aos/dist/aos.css"
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min'
@@ -19,6 +21,7 @@ import utils from './util/public'
 
 
 Vue.use(iview);
+Vue.use(AOS);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.prototype.$md5 = md5;

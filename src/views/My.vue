@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header></Header>
-    <div class="container my-main">
+    <div class="container my-main" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
       <Row>
         <Col span="6">
         <Menu active-name="myartist"
@@ -96,6 +96,7 @@
 
 <script>
 import Header from '@/components/Menu'
+import AOS from 'aos'
 
 export default {
   components: {
@@ -143,6 +144,9 @@ export default {
     }).catch((err) => { });
 
     this.getPlaylist();
+  },
+  mounted() {
+    AOS.init();
   }
 
 }

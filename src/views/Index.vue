@@ -1,11 +1,11 @@
 <template>
   <div>
     <Menu></Menu>
-    <Carousel></Carousel>
+    <Carousel data-aos="fade-left" data-aos-easing="ease" data-aos-duration="700" data-aos-delay="100"></Carousel>
     <div class="content container">
 
       <!-- 热门推荐 -->
-      <div class="group1">
+      <div class="group1" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
         <div class="group-top">
           <h3 class="">热门推荐</h3>
           <ul class="">
@@ -30,7 +30,7 @@
       <!-- 热门推荐结束 -->
 
       <!-- 新碟上架 -->
-      <div class="group1">
+      <div class="group1" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
         <div class="group-top">
           <h3 class="">新碟上架</h3>
           <span class="more" @click="goMore('/album')">更多 >></span>
@@ -69,7 +69,7 @@
       <!-- 新碟上架结束 -->
 
       <!-- 榜单 -->
-      <div class="group1">
+      <div class="group1" data-aos="flip-left" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
         <div class="group-top">
           <h3>榜单</h3>
           <span class="more">更多 >></span>
@@ -105,7 +105,7 @@
       <!-- 榜单结束 -->
 
       <!-- 热门歌手 -->
-      <div class="group1">
+      <div class="group1" data-aos="flip-right" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
         <div class="group-top">
           <h3>热门歌手</h3>
           <span class="more" @click="goMore('/singerlist')">更多 >></span>
@@ -127,6 +127,7 @@
 <script>
 import Menu from '@/components/Menu'
 import Carousel from '@/components/Carousel'
+import AOS from "aos"
 
 export default {
 
@@ -169,18 +170,22 @@ export default {
     this.$axios.get(this.api.newList).then((res) => { this.newList = res.data.songs }).catch((err) => { });
     this.$axios.get(this.api.originalList).then((res) => { this.originalList = res.data.songs }).catch((err) => { });
     this.$axios.get(this.api.singerList).then((res) => { this.singerList = res.data.artists }).catch((err) => { });
+  },
+  mounted() {
+    AOS.init();
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .content {
-  border: 1px solid rgba(114, 114, 114, 0.842);
+  border: 1px solid #ccc;
   min-height: 700px;
   width: 1080px;
   padding: 30px 40px;
   .group1 {
     margin-bottom: 50px;
+    height: auto;
     .group-top {
       width: 100%;
       border-bottom: 2px solid #000;

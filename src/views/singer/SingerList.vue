@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menu></Menu>
-    <div class="container singerlist">
+    <div class="container singerlist" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="800" data-aos-delay="100">
       <div class="top-banner">
         <h3>全部歌手</h3>
         <Dropdown trigger="click"
@@ -36,6 +36,7 @@
 
 <script>
 import Menu from '@/components/Menu'
+import AOS from 'aos'
 export default {
   components: {
     Menu
@@ -68,6 +69,9 @@ export default {
     this.$axios.get(this.api.singerList).then((res) => {
       this.currentList = res.data.artists;
     }).catch((err) => { });
+  },
+  mounted() {
+    AOS.init();
   }
 }
 </script>
