@@ -270,7 +270,6 @@ export default {
     },
     toPage(index) {
       this.$router.push(index);
-    // console.log(index);
     }
   },
   mounted() {

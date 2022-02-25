@@ -22,7 +22,7 @@
       <div class="group-content">
         <ul>
           <li v-for="item, index in hotPlaylist"
-              :key="index">
+              :key="index" @click="goSongDetail(item)">
             <img :src="item.picUrl"
                  alt="">
             <h4>{{ item.name }}</h4>
@@ -126,6 +126,9 @@ export default {
       this.artistList = artist.data.artists;
       const soar = await this.$axios.get(this.api.soarList);
       this.soarList = soar.data.songs;
+    },
+    async goSongDetail(obj) {
+      this.$router.push({ path: `/songdetail/${obj.id}` });
     },
     goMore(data) {
       this.$router.push(data);

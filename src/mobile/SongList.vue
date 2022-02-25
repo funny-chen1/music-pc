@@ -28,7 +28,7 @@
       <div class="main">
         <ul>
             <li v-for="item,index in currentList.playlists" :key="index">
-                <img :src="item.coverImgUrl" alt="">
+                <img :src="item.coverImgUrl" alt="" @click="goSongDetail(item)">
                 <h4>{{ item.name }}</h4>
                 <span>by:{{ item.creator.nickname }}</span>
             </li>
@@ -67,6 +67,9 @@ export default {
         let url = this.api.allPlayList + '?cat=' + obj.name;
         const res = await this.$axios.get(url);
         this.currentList = res.data;
+    },
+    async goSongDetail(obj) {
+        this.$router.push({path: `/songdetail/${obj.id}`});
     }
   },
   created() {

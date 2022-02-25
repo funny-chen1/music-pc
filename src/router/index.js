@@ -110,6 +110,12 @@ const routesMobile = [
     component: () => import('@/mobile/SongList')
   },
   {
+    path: '/songdetail/:id',
+    name: 'SongDetail',
+    meta: { title: '歌单详情' },
+    component: () => import('@/mobile/SongDetail')
+  },
+  {
     path: '/my',
     name: 'My',
     meta: {title: '我的音乐'},
@@ -120,6 +126,12 @@ const routesMobile = [
     name: 'SingerList',
     meta: {title: '歌手'},
     component: () => import('@/mobile/singer/SingerList')
+  },
+  {
+    path: '/singerdetail/:id',
+    name: 'SingerDetail',
+    meta: {title: '歌手详情'},
+    component: () => import('@/mobile/singer/SingerDetail')
   },
   {
     path: '/musician',

@@ -22,6 +22,7 @@ export const musicUrl = api + '/song/url'   //获取音乐url
 export const artistsList = api + '/artist/list'     //歌手分类列表
 export const artistDetail = api +'/artists'      //歌手全部单曲
 export const artistDesc = api + '/artist/desc'  //歌手介绍
+export const singerDetail = api + '/artist/detail'  //歌手详情
 export const albumList = api + '/artist/album'      //歌手专辑
 export const mvList = api + '/artist/mv'        //歌手mv
 export const collectSinger = api + '/artist/sub'       //收藏/取消收藏歌手
