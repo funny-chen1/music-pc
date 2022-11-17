@@ -12,6 +12,7 @@
               @click="toPage(item.index)">{{ item.title }}</li>
         </ul>
       </div>
+      <div class="search" @click="toPage('/search')"><img src="../assets/search.png" alt=""></div>
       <div v-if="isLogin"
            class="login-btn">
         <img :src="this.$store.state.userInfo.profile.avatarUrl" @click="toPage('/profile')">
@@ -289,13 +290,16 @@ export default {
   background-color: #000;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   .logo {
     text-align: center;
     width: 200px;
     height: 80px;
-    line-height: 80px;
-    border: 1px solid #fff;
     color: #fff;
+    h3 {
+      margin-top: 0;
+      line-height: 80px;
+    }
   }
   .menu {
     ul {
@@ -330,6 +334,13 @@ export default {
       border-radius: 50%;
       margin-right: 10px;
       cursor: pointer;
+    }
+  }
+  .search {
+    cursor: pointer;
+    img {
+      width: 30px;
+      height: 30px;
     }
   }
 }

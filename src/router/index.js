@@ -15,79 +15,73 @@ const routesWeb = [
     path: '/index',   //首页
     name: 'Index',
     meta: { title: '首页' },
-    component: () => import('@/views/Index')
+    component:  resolve => (require(['@/views/Index'], resolve))
   },
   {
     path: '/my',  //我的音乐
     name: 'My',
     meta: { title: '我的音乐' },
-    component: () => import('@/views/My')
+    component: resolve => (require(['@/views/My'], resolve))
   },
-  // {
-  //   path: '/playlist',  //歌单列表页
-  //   name: 'PlayList',
-  //   component: () => import('@/views/playList/PlayList'),
-  //   children: [
-  //     {
-  //       path: ':id',
-  //       name: 'PlayListDetail',
-  //       component: () => import('@/views/playList/children/PlayListDetail')
-  //     }
-  //   ]
-  // },
   {
     path: '/songlist',
     name: 'SongList',
     meta: { title: '全部歌单' },
-    component: () => import('@/views/SongList')
+    component: resolve => (require(['@/views/SongList'], resolve))
   },
   {
     path: '/songdetail/:id',
     name: 'SongDetail',
     meta: { title: '歌单详情' },
-    component: () => import('@/views/SongDetail')
+    component: resolve => (require(['@/views/SongDetail'], resolve))
   },
   {
     path: '/singerlist',
     name: 'SingerList',
     meta: { title: '全部歌手' },
-    component: () => import('@/views/singer/SingerList')
+    component: resolve => (require(['@/views/singer/SingerList'], resolve))
   },
   {
     path: '/singerdetail/:id',
     name: 'SingerDetail',
     meta: { title: '歌手详情' },
-    component: () => import('@/views/singer/SingerDetail')
+    component: resolve => (require(['@/views/singer/SingerDetail'], resolve))
   },
   {
     path: '/mv/:id',
     name: 'Mv',
     meta: {title: 'MV'},
-    component: () => import('@/views/Mv')
+    component: resolve => (require(['@/views/Mv'], resolve))
   },
   {
     path: '/musician',
     name: 'Musician',
     meta: {title: '音乐人'},
-    component: () => import('@/views/Musician')
+    component: resolve => (require(['@/views/Musician'], resolve))
   },
   {
     path: '/album',
     name: 'Album',
     meta: {title: '专辑'},
-    component: () => import('@/views/album/AlbumList')
+    component: resolve => (require(['@/views/album/AlbumList'], resolve))
   },
   {
     path: '/albumdetail/:id',
     name: 'AlbumDetail',
     meta: {title: '专辑详情'},
-    component: () => import('@/views/album/AlbumDetail')
+    component: resolve => (require(['@/views/album/AlbumDetail'], resolve))
   },
   {
     path: '/profile',
     name: 'Profile',
     meta: {title: '个人设置'},
-    component: () => import('@/views/Profile')
+    component: resolve => (require(['@/views/Profile'], resolve))
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    meta: {title: '搜索'},
+    component: resolve => (require(['@/views/Search'], resolve))
   }
 ];
 
@@ -101,49 +95,90 @@ const routesMobile = [
     path: '/index',   //首页
     name: 'Index',
     meta: {title: '首页'},
-    component: () => import('@/mobile/Index')
+    component: resolve => (require(['@/mobile/Index'], resolve))
   },
   {
     path: '/songlist',
     name: 'SongList',
     meta: {title: '全部歌单'},
-    component: () => import('@/mobile/SongList')
+    component: resolve => (require(['@/mobile/SongList'], resolve))
   },
   {
     path: '/songdetail/:id',
     name: 'SongDetail',
     meta: { title: '歌单详情' },
-    component: () => import('@/mobile/SongDetail')
+    component: resolve => (require(['@/mobile/SongDetail'], resolve))
   },
   {
     path: '/my',
-    name: 'My',
-    meta: {title: '我的音乐'},
-    component: () => import('@/mobile/My')
+    component: resolve => (require(['@/mobile/my/My'], resolve)),
+    children: [
+      {
+        path: '',
+        meta: {title: '我的音乐'},
+        component: resolve => (require(['@/mobile/my/children/Item'], resolve))
+      },
+      {
+        path: 'artists',
+        name: 'Artists',
+        meta: {title: '我的歌手'},
+        component: resolve => (require(['@/mobile/my/children/Artists'], resolve))
+      },
+      {
+        path: 'mvs',
+        name: 'Mv',
+        meta: {title: '我的歌手'},
+        component: resolve => (require(['@/mobile/my/children/Mv'], resolve))
+      },
+      {
+        path: 'albums',
+        name: 'Album',
+        meta: {title: '收藏专辑'},
+        component: resolve => (require(['@/mobile/my/children/Album'], resolve))
+      }
+    ]
   },
   {
     path: '/singerlist',
     name: 'SingerList',
     meta: {title: '歌手'},
-    component: () => import('@/mobile/singer/SingerList')
+    component: resolve => (require(['@/mobile/singer/SingerList'], resolve))
   },
   {
     path: '/singerdetail/:id',
     name: 'SingerDetail',
     meta: {title: '歌手详情'},
-    component: () => import('@/mobile/singer/SingerDetail')
+    component: resolve => (require(['@/mobile/singer/SingerDetail'], resolve))
   },
   {
     path: '/musician',
     name: 'Musician',
     meta: {title: '音乐人'},
-    component: () => import('@/mobile/Musician')
+    component: resolve => (require(['@/mobile/Musician'], resolve))
   },
   {
     path: '/profile',
     name: 'Profile',
     meta: {title: '设置'},
-    component: () => import('@/mobile/Profile')
+    component: resolve => (require(['@/mobile/Profile'], resolve))
+  },
+  {
+    path: '/mv/:id',
+    name: 'Mv',
+    meta: {title: 'MV'},
+    component: resolve => (require(['@/mobile/Mv'], resolve))
+  },
+  {
+    path: '/albumlist',
+    name: "AlbumList",
+    meta: {title: '专辑'},
+    component: resolve => (require(['@/mobile/album/AlbumList'], resolve))
+  },
+  {
+    path: '/albumdetail/:id',
+    name: 'AlbumDetail',
+    meta: {title: '专辑详情'},
+    component: resolve => (require(['@/mobile/album/AlbumDetail'], resolve))
   }
 ]
 

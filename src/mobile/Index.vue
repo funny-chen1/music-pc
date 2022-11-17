@@ -38,12 +38,12 @@
          data-aos-delay="100">
       <div class="group-top">
         <h3>新碟上架</h3>
-        <span>更多</span>
+        <span @click="goMore('/albumlist')">更多</span>
       </div>
       <div class="group-content">
         <ul>
           <li v-for="item, index in newest"
-              :key="index">
+              :key="index" @click="goAlbumDetail(item)">
             <img :src="item.picUrl"
                  alt="">
             <h4>{{ item.name }}</h4>
@@ -60,12 +60,12 @@
          data-aos-delay="100">
       <div class="group-top">
         <h3>热门歌手</h3>
-        <span>更多</span>
+        <span @click="goMore('/singerlist')">更多</span>
       </div>
       <div class="group-content1">
         <ul>
           <li v-for="item, index in artistList"
-              :key="index">
+              :key="index" @click="goSingerDetail(item)">
             <img :src="item.picUrl"
                  alt="">
             <h4>{{ item.name }}</h4>
@@ -129,6 +129,12 @@ export default {
     },
     async goSongDetail(obj) {
       this.$router.push({ path: `/songdetail/${obj.id}` });
+    },
+    async goSingerDetail(obj) {
+      this.$router.push({ path: `/singerdetail/${obj.id}` });
+    },
+    async goAlbumDetail(obj) {
+      this.$router.push({ path: `/albumdetail/${obj.id}` })
     },
     goMore(data) {
       this.$router.push(data);

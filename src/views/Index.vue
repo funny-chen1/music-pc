@@ -1,11 +1,35 @@
 <template>
   <div>
     <Menu></Menu>
-    <Carousel data-aos="fade-left" data-aos-easing="ease" data-aos-duration="700" data-aos-delay="100"></Carousel>
+    <Carousel data-aos="fade-left"
+              data-aos-easing="ease"
+              data-aos-duration="700"
+              data-aos-delay="100"></Carousel>
+    <!-- 等级签到模块 -->
+    <div class="lev-box"
+         v-if="isLogin">
+      <div class="top">
+        <img :src="this.$store.state.userInfo.profile.avatarUrl"
+             alt="" loading="lazy">
+        <h4>{{ this.$store.state.userInfo.profile.nickname }}</h4>
+      </div>
+      <button class="btn"
+              @click="sign()">签到</button>
+      <div class="down">
+        <span>Lv.{{ levelData }}</span>
+        <span>{{ this.$store.state.userInfo.profile.follows }} 关注</span>
+        <span>{{ this.$store.state.userInfo.profile.followeds }} 粉丝</span>
+      </div>
+    </div>
+    <!-- 等级签到模块结束 -->
     <div class="content container">
 
       <!-- 热门推荐 -->
-      <div class="group1" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
+      <div class="group1"
+           data-aos="fade-up"
+           data-aos-easing="ease"
+           data-aos-duration="1000"
+           data-aos-delay="100">
         <div class="group-top">
           <h3 class="">热门推荐</h3>
           <ul class="">
@@ -13,7 +37,8 @@
                 :key="index"
                 @click="goPage(item)">{{ item.name }}</li>
           </ul>
-          <span class="more" @click="goMore('/songlist')">更多 >></span>
+          <span class="more"
+                @click="goMore('/songlist')">更多 >></span>
         </div>
         <div class="group-detail">
           <ul>
@@ -21,7 +46,7 @@
                 :key="index"
                 @click="getSongDetail(item)">
               <img :src="item.picUrl"
-                   alt="">
+                   alt="" loading="lazy">
               <h4>{{ item.name }}</h4>
             </li>
           </ul>
@@ -30,10 +55,15 @@
       <!-- 热门推荐结束 -->
 
       <!-- 新碟上架 -->
-      <div class="group1" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
+      <div class="group1"
+           data-aos="fade-up"
+           data-aos-easing="ease"
+           data-aos-duration="1000"
+           data-aos-delay="100">
         <div class="group-top">
           <h3 class="">新碟上架</h3>
-          <span class="more" @click="goMore('/album')">更多 >></span>
+          <span class="more"
+                @click="goMore('/album')">更多 >></span>
         </div>
         <div class="group-detail">
           <Tabs value="name1">
@@ -44,7 +74,7 @@
                     :key="index"
                     @click="getAlbumDetail(item)"
                     class="small">
-                  <img :src="item.picUrl">
+                  <img :src="item.picUrl" loading="lazy">
                   <h4>{{ item.name }}</h4>
                   <h4>{{ item.artist.name }}</h4>
                 </li>
@@ -57,7 +87,7 @@
                     :key="index"
                     @click="getAlbumDetail(item)"
                     class="small">
-                  <img :src="item.picUrl">
+                  <img :src="item.picUrl" loading="lazy">
                   <h4>{{ item.name }}</h4>
                   <h4>{{ item.artist.name }}</h4>
                 </li>
@@ -69,7 +99,11 @@
       <!-- 新碟上架结束 -->
 
       <!-- 榜单 -->
-      <div class="group1" data-aos="flip-left" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
+      <div class="group1"
+           data-aos="flip-left"
+           data-aos-easing="ease"
+           data-aos-duration="1000"
+           data-aos-delay="100">
         <div class="group-top">
           <h3>榜单</h3>
           <span class="more">更多 >></span>
@@ -80,7 +114,9 @@
             <Card shadow>
               <p slot="title">飙升榜</p>
               <p slot="extra">查看全部</p>
-              <p v-for="item,index in soarList" :key="index" @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
+              <p v-for="item,index in soarList"
+                 :key="index"
+                 @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
             </Card>
             </Col>
             <Col span="7"
@@ -88,7 +124,9 @@
             <Card shadow>
               <p slot="title">新歌榜</p>
               <p slot="extra">查看全部</p>
-              <p v-for="item,index in newList" :key="index" @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
+              <p v-for="item,index in newList"
+                 :key="index"
+                 @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
             </Card>
             </Col>
             <Col span="7"
@@ -96,7 +134,9 @@
             <Card shadow>
               <p slot="title">新歌榜</p>
               <p slot="extra">查看全部</p>
-              <p v-for="item,index in originalList" :key="index" @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
+              <p v-for="item,index in originalList"
+                 :key="index"
+                 @click="goPage(item)">{{index+1}}&nbsp;&nbsp;{{ item.name }}</p>
             </Card>
             </Col>
           </Row>
@@ -105,15 +145,22 @@
       <!-- 榜单结束 -->
 
       <!-- 热门歌手 -->
-      <div class="group1" data-aos="flip-right" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
+      <div class="group1"
+           data-aos="flip-right"
+           data-aos-easing="ease"
+           data-aos-duration="1000"
+           data-aos-delay="100">
         <div class="group-top">
           <h3>热门歌手</h3>
-          <span class="more" @click="goMore('/singerlist')">更多 >></span>
+          <span class="more"
+                @click="goMore('/singerlist')">更多 >></span>
         </div>
         <div class="group-detail2">
           <ul>
-            <li v-for="item,index in singerList" :key="index" @click="getSingerDetail(item)">
-              <img :src="item.picUrl">
+            <li v-for="item,index in singerList"
+                :key="index"
+                @click="getSingerDetail(item)">
+              <img :src="item.picUrl" loading="lazy">
               <p>{{ item.name }}</p>
             </li>
           </ul>
@@ -128,6 +175,7 @@
 import Menu from '@/components/Menu'
 import Carousel from '@/components/Carousel'
 import AOS from "aos"
+import { signIn } from '@/api/getData'
 
 export default {
 
@@ -142,7 +190,26 @@ export default {
       soarList: [],
       newList: [],
       originalList: [],
-      singerList: []
+      singerList: [],
+      cookie: '',
+      levelData: ''
+    }
+  },
+  computed: {
+    isLogin: {
+      get() {
+        let info = localStorage.getItem('userInfo');
+        let token = localStorage.getItem('token');
+        if (info && token) {
+          this.$store.commit('userStatus', JSON.parse(info));
+        } else {
+          this.$store.commit('userStatus', null);
+        }
+        return this.$store.getters.isLogin;
+      },
+      set(v) {
+        return this.$store.state.isLogin;
+      }
     }
   },
   methods: {
@@ -153,13 +220,28 @@ export default {
       console.log(data.id);
     },
     getSongDetail(obj) {
-      this.$router.push({path: `/songdetail/${obj.id}`});
+      this.$router.push({ path: `/songdetail/${obj.id}` });
     },
     getSingerDetail(obj) {
-      this.$router.push({path: `/singerdetail/${obj.id}`});
+      this.$router.push({ path: `/singerdetail/${obj.id}` });
     },
     getAlbumDetail(obj) {
-      this.$router.push({path: `/albumdetail/${obj.id}`});
+      this.$router.push({ path: `/albumdetail/${obj.id}` });
+    },
+    async getUserLevel() {
+      const res = await this.$axios.post(this.api.level, { cookie: this.cookie });
+      this.levelData = res.data.data.level;
+    },
+    async sign() {
+      if (this.cookie) {
+        const res = await signIn({cookie: this.cookie});
+        if (res.code === 200) {
+          this.$Message.success('签到成功！获得'+ res.point + '点经验。')
+        }
+      } else {
+        this.$Message.error('未登录！')
+      }
+
     }
   },
   created() {
@@ -170,6 +252,10 @@ export default {
     this.$axios.get(this.api.newList).then((res) => { this.newList = res.data.songs }).catch((err) => { });
     this.$axios.get(this.api.originalList).then((res) => { this.originalList = res.data.songs }).catch((err) => { });
     this.$axios.get(this.api.singerList).then((res) => { this.singerList = res.data.artists }).catch((err) => { });
+    if (localStorage.getItem('cookie')) {
+      this.cookie = localStorage.getItem('cookie');
+      this.getUserLevel();
+    }
   },
   mounted() {
     AOS.init();
@@ -276,6 +362,39 @@ export default {
         }
       }
     }
+  }
+}
+.lev-box {
+  box-shadow: 0 5px 5px #ccc;
+  background-color: #fff;
+  width: 200px;
+  position: fixed;
+  right: 1%;
+  top: 50%;
+  z-index: 999;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    img {
+      width: 70px;
+      height: 70px;
+      margin-right: 10px;
+    }
+  }
+  .btn {
+    margin: 10px 0;
+    background-color: #000;
+    color: #fff;
+    width: 80px;
+    outline: none;
+  }
+  .down {
+    display: flex;
+    justify-content: space-around;
+    color: #999;
+    margin-bottom: 10px;
   }
 }
 </style>

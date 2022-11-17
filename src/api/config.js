@@ -48,3 +48,4 @@ export const collectedSinger = api + '/artist/sublist'   //用户收藏歌手列
 export const collectedMv = api + '/mv/sublist'      //用户收藏mv列表
 export const collectedAlbum = api + '/album/sublist'       //用户收藏专辑
 export const collectedPlaylist = api + '/user/playlist'     //获取用户歌单
+export const level = api + '/user/level'       //获取用户等级

@@ -34,30 +34,17 @@
           </ul>
       </div>
 
-      <div class="hide-box" v-if="modal">
-          <div class="header">
-            <img :src="currentInfo.al.picUrl" alt="">
-            <span>{{ currentInfo.name }} - {{ currentInfo.ar[0].name }}</span>
-          </div>
-          <div class="item-list">
-              <ul>
-                  <li><img src="../assets/play.png" alt="">播放</li>
-                  <li><img src="../assets/folder-add.png" alt="">收藏</li>
-                  <li><img src="../assets/comments.png" alt="">评论</li>
-                  <li><img src="../assets/share.png" alt="">分享</li>
-                  <li>专辑：{{ currentInfo.al.name }}</li>
-              </ul>
-          </div>
-      </div>
+      <Popup :title="title" :show="show"></Popup>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header'
+import Popup from '@/components/Popup'
 import AOS from 'aos'
 export default {
     components: {
-        Header
+        Header, Popup
     },
     data() {
         return {
@@ -66,8 +53,9 @@ export default {
             },
             allSong: [],
             commentList: [],
-            modal: false,
-            currentInfo: {}
+            show: false,
+            currentInfo: {},
+            title: {}
         }
     },methods: {
         async initData() {
@@ -81,8 +69,8 @@ export default {
             this.commentList = res3.data.comments;
         },
         async openForm(obj) {
-            this.modal = true;
-            this.currentInfo = obj;
+            this.show = true;
+            this.title = obj;
         }
     },
     created() {
@@ -92,7 +80,7 @@ export default {
         AOS.init();
         document.addEventListener('click', (e) => {
             if (e.target.className != 'menu-icon') {
-                this.modal = false;
+                this.show = false;
             }
         })
     }

@@ -1,9 +1,20 @@
 <template>
-  <div class="menu" :class="{active: isActive}" data-aos="fade-down" data-aos-easing="ease" data-aos-duration="800" data-aos-delay="100">
-    <div @click="showList = !showList">
+  <div class="menu"
+       :class="{active: isActive}"
+       data-aos="fade-down"
+       data-aos-easing="ease"
+       data-aos-duration="800"
+       data-aos-delay="100">
+    <div v-if="!showBack"
+         @click="showList = !showList">
       <img src="../assets/menu.png"
            alt=""
            class="menu-icon">
+    </div>
+    <div v-if="showBack"
+         @click="goBack()">
+      <img src="../assets/返回.png"
+           alt="">
     </div>
     <h3>首页</h3>
     <div v-if="isLogin"
@@ -157,6 +168,20 @@ export default {
       set(v) {
         return this.$store.state.isLogin;
       }
+    },
+    showBack() {
+      let count = 0;
+      let path = this.$route.path.split('');
+      path.forEach((v, k) => {
+        if (v === '/') {
+          count++;
+        }
+      });
+      if (count >= 2) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   methods: {
@@ -218,6 +243,7 @@ export default {
       if (this.checkPhone(this.loginInfo.phone) && this.checkPassword(this.loginInfo.password)) {
         this.$axios.post(this.api.login, this.loginInfo)
           .then((response) => {
+            console.log(response);
             if (response.data.code === 200) {
               localStorage.setItem('token', response.data.token);
               localStorage.setItem('userInfo', JSON.stringify(response.data));
@@ -270,15 +296,18 @@ export default {
     },
     toPage(index) {
       this.$router.push(index);
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   },
   mounted() {
-      AOS.init();
-      document.addEventListener('click', (e) => {
-          if (e.target.className != 'menu-icon') {
-              this.showList = false;
-          }
-      })
+    AOS.init();
+    document.addEventListener('click', (e) => {
+      if (e.target.className != 'menu-icon') {
+        this.showList = false;
+      }
+    })
   }
 }
 </script>

@@ -1,7 +1,11 @@
 <template>
   <div>
     <Header></Header>
-    <div class="container my-main" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="100">
+    <div v-if="isLogin" class="container my-main"
+         data-aos="fade-up"
+         data-aos-easing="ease"
+         data-aos-duration="1000"
+         data-aos-delay="100">
       <Row>
         <Col span="6">
         <Menu active-name="myartist"
@@ -91,6 +95,9 @@
         </Col>
       </Row>
     </div>
+    <div v-else>
+      <h3>请登录！</h3>
+    </div>
   </div>
 </template>
 
@@ -108,6 +115,23 @@ export default {
       mvList: [],
       albumList: [],
       currentItem: 'myartist'
+    }
+  },
+  computed: {
+    isLogin: {
+      get() {
+        let info = localStorage.getItem('userInfo');
+        let token = localStorage.getItem('token');
+        if (info && token) {
+          this.$store.commit('userStatus', JSON.parse(info));
+        } else {
+          this.$store.commit('userStatus', null);
+        }
+        return this.$store.getters.isLogin;
+      },
+      set(v) {
+        return this.$store.state.isLogin;
+      }
     }
   },
   methods: {
@@ -130,20 +154,22 @@ export default {
     }
   },
   created() {
+    if (localStorage.getItem('cookie')) {
+      this.$axios.post(this.api.collectedSinger, { cookie: localStorage.getItem('cookie') }).then((res) => {
+        this.artistList = res.data.data;
+      }).catch((err) => { });
 
-    this.$axios.post(this.api.collectedSinger, { cookie: localStorage.getItem('cookie') }).then((res) => {
-      this.artistList = res.data.data;
-    }).catch((err) => { });
+      this.$axios.post(this.api.collectedMv, { cookie: localStorage.getItem('cookie') }).then((res) => {
+        this.mvList = res.data.data;
+      }).catch((err) => { });
 
-    this.$axios.post(this.api.collectedMv, { cookie: localStorage.getItem('cookie') }).then((res) => {
-      this.mvList = res.data.data;
-    }).catch((err) => { });
+      this.$axios.post(this.api.collectedAlbum, { cookie: localStorage.getItem('cookie') }).then((res) => {
+        this.albumList = res.data.data;
+      }).catch((err) => { });
 
-    this.$axios.post(this.api.collectedAlbum, { cookie: localStorage.getItem('cookie') }).then((res) => {
-      this.albumList = res.data.data;
-    }).catch((err) => { });
+      this.getPlaylist();
+    }
 
-    this.getPlaylist();
   },
   mounted() {
     AOS.init();
@@ -180,7 +206,7 @@ export default {
           width: 150px;
           padding: 10px;
           cursor: pointer;
-          margin:10px 15px;
+          margin: 10px 15px;
           background-color: #ccc;
           transition: transform 0.5s ease;
           -webkit-transition: -webkit-transform 0.5s ease;
